@@ -5,20 +5,30 @@ class Scoreboard(Turtle):
     def __init__(self):
         super().__init__()
         self.score = 0
+        with open("data.txt", mode="r") as data:
+            self.high_score = int(data.read())
         self.color("white")
         self.hideturtle()
         self.penup()
         self.goto(0,260)
-        self.write(f"Score: {self.score}", align="center", font=("Geometric", 24, "normal"))
+        self.update_scoreboard()
 
     def food_eaten(self):
-        self.write(f"Score: {self.score}", align="center", font=("Geometric", 24, "normal"))
+        self.score += 1
+        self.update_scoreboard()
 
     def update_scoreboard(self):
-        self.score += 1
         self.clear()
-        self.food_eaten()
+        self.write(f"Score: {self.score}     High Score: {self.high_score}", align="center", font=("Geometric", 20, "normal"))
 
-    def game_over(self):
-        self.goto(0, 0)
-        self.write(f"Game Over!", align="center", font=("Geometric", 24, "normal"))
+    def reset(self):
+        if self.score > int(self.high_score):
+            self.high_score = self.score
+            with open("data.txt", mode="w") as data:
+                data.write(str(self.high_score))
+        self.score = 0
+        self.update_scoreboard()
+
+    # def game_over(self):
+    #     self.goto(0, 0)
+    #     self.write(f"Game Over!", align="center", font=("Geometric", 24, "normal"))

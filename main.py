@@ -31,18 +31,18 @@ while game_on:
     # Detect collision with food
     if snakey.head.distance(food) < 15:
         food.refresh()
-        scoreboard.update_scoreboard()
+        scoreboard.food_eaten()
         snakey.extend()
 
     # Detect collision with wall
     if snakey.head.xcor() > 280 or snakey.head.xcor() < -280 or snakey.head.ycor() > 280 or snakey.head.ycor() < -280:
-        game_on = False
-        scoreboard.game_over()
+        scoreboard.reset()
+        snakey.reset()
 
     # Detect collision with tail
     for segment in snakey.segments[1:]:
         if snakey.head.distance(segment) < 10:
-            game_on = False
-            scoreboard.game_over()
+            scoreboard.reset()
+            snakey.reset()
 
 screen.exitonclick()
